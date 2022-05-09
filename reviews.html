@@ -69,6 +69,7 @@
     <script type="text/javascript" defer>
                     function send_sms(slug){
                         console.log('send_sms',1, slug)
+                        event.preventDefault()
                         function uuidV4() {
                             return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
                               (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -187,7 +188,6 @@
                         }
                         const getSelectedServices = () =>{
                             const allSelectedServiced = Array.from(document.querySelectorAll('[id^="contact-service"]'))
-
                             if (allSelectedServiced.length){
                                 return allSelectedServiced.filter( (x)=> x.checked
                             ).map(item => item.value).join(",");
@@ -248,11 +248,29 @@
                             return result.json();
                         })
                         .then(result => {
+                            const sendTextModalId = document.getElementById("send-text-modal")
+                            sendTextModalId.style.display = 'none'
+                            const modalId = document.getElementById("text-thank-you")
+                            modalId.style.display = 'block';
+                            return result
+                        })
+                        .catch(result => {
                             console.log(result)
-                            alert("Your message has been sent!")
-                            location.reload()
+                            alert("There was a problem sending your text. Please reach out to ProPhone.")
                         })
 
+                        setTimeout(() => {
+                            const sendTextModalId = document.getElementById("send-text-modal")
+                            const modalId = document.getElementById("text-thank-you")
+                            modalId.style.display = 'none';
+                            if (sendTextModalId.style.display === 'none') {
+                                reload()
+                            }
+                        }, 5000);
+
+                        const reload = () => {
+                            location.reload()
+                        }
 
                     }
                 
@@ -352,8 +370,8 @@
                         class="flex items-center h-full transition-all duration-200 origin-left"
                     >
                         <!-- Logo Link -->
-                        <a
-                            href="/"
+                    
+                        <a  href= " index "
                             class="flex items-center justify-center flex-shrink-0 pr-5 bg-white rounded-md  focus:ring-2 focus:outline-none ring-primary ring-opacity-75 ring-offset-2"
                         >
                             <img
@@ -362,6 +380,7 @@
                                 alt="Brand Logo"
                             />
                         </a>
+                    
                     </div>
                     <!-- Links -->
                     <div
@@ -449,8 +468,52 @@
                                         <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                                             <div class="relative grid gap-6 px-5 py-6 bg-white sm:gap-8 sm:p-8">
                                                 <!-- Render each sublink -->
-                                                <!-- <each loop="link in [{&#x27;title&#x27;: &#x27;Our General Carpentry service offers a wide range of carpentry services for homeowners. We can help you with everything from building a new deck to fixing a broken chair. Our experienced carpenters will work with you to create the perfect solution for your needs.&#x27;, &#x27;copy&#x27;: &#x27;General Carpentry&#x27;, &#x27;href&#x27;: &#x27;service-General-Carpentry&#x27;}, {&#x27;title&#x27;: &quot;If you&#x27;re looking for a reliable and experienced woodworking company to take care of your home wood repairs, look no further than our team! We have years of experience in the industry and can handle any repair or renovation project you may need. Contact us today for a free consultation!&quot;, &#x27;copy&#x27;: &#x27;Home Wood Repairs&#x27;, &#x27;href&#x27;: &#x27;service-Home-Wood-Repairs&#x27;}, {&#x27;title&#x27;: &#x27;Our Exterior Additions service offers homeowners a variety of exterior woodworking projects including porches, decks, gazebos and pergolas. Our team of experts will work with you to design and build the perfect addition for your home.&#x27;, &#x27;copy&#x27;: &#x27;Exterior Additions&#x27;, &#x27;href&#x27;: &#x27;service-Exterior-Additions&#x27;}]"> -->
+                                                <!-- <each loop="link in [{&#x27;title&#x27;: &#x27;Our Kitchen Remodel service can update your kitchen with a new look that is stylish and functional. We can replace your old cabinets and countertops with new ones, or we can install a completely new kitchen for you.&#x27;, &#x27;copy&#x27;: &#x27;Kitchen Remodel&#x27;, &#x27;href&#x27;: &#x27;service-Kitchen-Remodel&#x27;}, {&#x27;title&#x27;: &quot;We are a full-service woodworking company that offers a wide range of services, including bathroom remodeling. We can help you design and build the perfect bathroom for your home, whether you&#x27;re looking for something traditional or modern.&quot;, &#x27;copy&#x27;: &#x27;Bathroom Remodel&#x27;, &#x27;href&#x27;: &#x27;service-Bathroom-Remodel&#x27;}, {&#x27;title&#x27;: &quot;Decking is a great way to improve the look and functionality of your home. Our decking service can help you select the perfect material and design for your needs, and we&#x27;ll take care of the installation.&quot;, &#x27;copy&#x27;: &#x27;Decks&#x27;, &#x27;href&#x27;: &#x27;service-Decks&#x27;}, {&#x27;title&#x27;: &#x27;We are a custom carpentry company that can build anything you can imagine out of wood. We have a wide variety of woodworking skills and experience, so we can take on any project you might have.&#x27;, &#x27;copy&#x27;: &#x27;Custom Carpentry&#x27;, &#x27;href&#x27;: &#x27;service-Custom-Carpentry&#x27;}, {&#x27;title&#x27;: &#x27;Our General Carpentry service offers a wide range of carpentry services for homeowners. We can help you with everything from building a new deck to fixing a broken chair. Our experienced carpenters will work with you to create the perfect solution for your needs.&#x27;, &#x27;copy&#x27;: &#x27;General Carpentry&#x27;, &#x27;href&#x27;: &#x27;service-General-Carpentry&#x27;}, {&#x27;title&#x27;: &quot;If you&#x27;re looking for a reliable and experienced woodworking company to take care of your home wood repairs, look no further than our team! We have years of experience in the industry and can handle any repair or renovation project you may need. Contact us today for a free consultation!&quot;, &#x27;copy&#x27;: &#x27;Home Wood Repairs&#x27;, &#x27;href&#x27;: &#x27;service-Home-Wood-Repairs&#x27;}, {&#x27;title&#x27;: &#x27;Our Exterior Additions service offers homeowners a variety of exterior woodworking projects including porches, decks, gazebos and pergolas. Our team of experts will work with you to design and build the perfect addition for your home.&#x27;, &#x27;copy&#x27;: &#x27;Exterior Additions&#x27;, &#x27;href&#x27;: &#x27;service-Exterior-Additions&#x27;}]"> -->
                                                   
+                                                    <a
+                                                        href=" service-Kitchen-Remodel "
+                                                        role="menuitem"
+                                                        class="block p-3 -m-3 transition rounded-md  focus:outline-none focus:ring-2 ring-primary ring-opacity-75 ring-offset-2 hover:bg-gray-50"
+                                                    >
+                                                        <!-- <p class="text-base font-medium text-gray-900">Our Kitchen Remodel service can update your kitchen with a new look that is stylish and functional. We can replace your old cabinets and countertops with new ones, or we can install a completely new kitchen for you.</p> -->
+                                                        <p class="mt-1 text-sm text-gray-500">Kitchen Remodel</p>
+                                                    </a>
+                                                <!-- </each> -->
+                                               <!--  -->
+                                                 
+                                                    <a
+                                                        href=" service-Bathroom-Remodel "
+                                                        role="menuitem"
+                                                        class="block p-3 -m-3 transition rounded-md  focus:outline-none focus:ring-2 ring-primary ring-opacity-75 ring-offset-2 hover:bg-gray-50"
+                                                    >
+                                                        <!-- <p class="text-base font-medium text-gray-900">We are a full-service woodworking company that offers a wide range of services, including bathroom remodeling. We can help you design and build the perfect bathroom for your home, whether you&#x27;re looking for something traditional or modern.</p> -->
+                                                        <p class="mt-1 text-sm text-gray-500">Bathroom Remodel</p>
+                                                    </a>
+                                                <!-- </each> -->
+                                               <!--  -->
+                                                 
+                                                    <a
+                                                        href=" service-Decks "
+                                                        role="menuitem"
+                                                        class="block p-3 -m-3 transition rounded-md  focus:outline-none focus:ring-2 ring-primary ring-opacity-75 ring-offset-2 hover:bg-gray-50"
+                                                    >
+                                                        <!-- <p class="text-base font-medium text-gray-900">Decking is a great way to improve the look and functionality of your home. Our decking service can help you select the perfect material and design for your needs, and we&#x27;ll take care of the installation.</p> -->
+                                                        <p class="mt-1 text-sm text-gray-500">Decks</p>
+                                                    </a>
+                                                <!-- </each> -->
+                                               <!--  -->
+                                                 
+                                                    <a
+                                                        href=" service-Custom-Carpentry "
+                                                        role="menuitem"
+                                                        class="block p-3 -m-3 transition rounded-md  focus:outline-none focus:ring-2 ring-primary ring-opacity-75 ring-offset-2 hover:bg-gray-50"
+                                                    >
+                                                        <!-- <p class="text-base font-medium text-gray-900">We are a custom carpentry company that can build anything you can imagine out of wood. We have a wide variety of woodworking skills and experience, so we can take on any project you might have.</p> -->
+                                                        <p class="mt-1 text-sm text-gray-500">Custom Carpentry</p>
+                                                    </a>
+                                                <!-- </each> -->
+                                               <!--  -->
+                                                 
                                                     <a
                                                         href=" service-General-Carpentry "
                                                         role="menuitem"
@@ -773,6 +836,30 @@
                                     >
                                         <div class="relative grid gap-6 px-5 py-2 bg-white rounded-lg">
                                             <!-- Render each sublink -->
+                                            
+                                                <a href="service-Kitchen-Remodel" role="menuitem" class="block p-3 -m-3 transition rounded-md">
+                                                    <!-- <p class="text-base font-medium text-gray-900">Our Kitchen Remodel service can update your kitchen with a new look that is stylish and functional. We can replace your old cabinets and countertops with new ones, or we can install a completely new kitchen for you.</p> -->
+                                                    <p class="mt-1 text-sm text-gray-500">Kitchen Remodel</p>
+                                                </a>
+                                            <!-- </each> -->
+                                            
+                                                <a href="service-Bathroom-Remodel" role="menuitem" class="block p-3 -m-3 transition rounded-md">
+                                                    <!-- <p class="text-base font-medium text-gray-900">We are a full-service woodworking company that offers a wide range of services, including bathroom remodeling. We can help you design and build the perfect bathroom for your home, whether you&#x27;re looking for something traditional or modern.</p> -->
+                                                    <p class="mt-1 text-sm text-gray-500">Bathroom Remodel</p>
+                                                </a>
+                                            <!-- </each> -->
+                                            
+                                                <a href="service-Decks" role="menuitem" class="block p-3 -m-3 transition rounded-md">
+                                                    <!-- <p class="text-base font-medium text-gray-900">Decking is a great way to improve the look and functionality of your home. Our decking service can help you select the perfect material and design for your needs, and we&#x27;ll take care of the installation.</p> -->
+                                                    <p class="mt-1 text-sm text-gray-500">Decks</p>
+                                                </a>
+                                            <!-- </each> -->
+                                            
+                                                <a href="service-Custom-Carpentry" role="menuitem" class="block p-3 -m-3 transition rounded-md">
+                                                    <!-- <p class="text-base font-medium text-gray-900">We are a custom carpentry company that can build anything you can imagine out of wood. We have a wide variety of woodworking skills and experience, so we can take on any project you might have.</p> -->
+                                                    <p class="mt-1 text-sm text-gray-500">Custom Carpentry</p>
+                                                </a>
+                                            <!-- </each> -->
                                             
                                                 <a href="service-General-Carpentry" role="menuitem" class="block p-3 -m-3 transition rounded-md">
                                                     <!-- <p class="text-base font-medium text-gray-900">Our General Carpentry service offers a wide range of carpentry services for homeowners. We can help you with everything from building a new deck to fixing a broken chair. Our experienced carpenters will work with you to create the perfect solution for your needs.</p> -->
@@ -1271,7 +1358,7 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                       <ul role="list" class="mt-4 -mx-1 space-y-4">
                           <li>
                               <a
-                                  href="#"
+                                  href="index"
                                   class="p-1 text-base text-gray-100 rounded hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-opacity-75"
                                   >Home</a
                               >
@@ -1298,19 +1385,45 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                           
                           
                           
-                          <li>
-                              <a
-                                  href='sitemap.xml'
-                                  class="p-1 text-base text-gray-100 rounded hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-opacity-75"
-                                  >Sitemap</a
-                              >
-                          </li>
+                          
                       </ul>
                   </div>
                   <!-- Services Links -->
                   <div class="mt-12 md:mt-0">
                       <h3 class="text-sm font-semibold tracking-wider text-gray-100 uppercase">Services</h3>
                       <ul role="list" class="mt-4 -mx-1 space-y-4">
+                          
+                          <li>
+                              <a
+                                  href="service-Kitchen-Remodel"
+                                  class="p-1 text-base text-gray-100 rounded hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-opacity-75"
+                                  >Kitchen Remodel</a
+                              >
+                          </li>
+                          
+                          <li>
+                              <a
+                                  href="service-Bathroom-Remodel"
+                                  class="p-1 text-base text-gray-100 rounded hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-opacity-75"
+                                  >Bathroom Remodel</a
+                              >
+                          </li>
+                          
+                          <li>
+                              <a
+                                  href="service-Decks"
+                                  class="p-1 text-base text-gray-100 rounded hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-opacity-75"
+                                  >Decks</a
+                              >
+                          </li>
+                          
+                          <li>
+                              <a
+                                  href="service-Custom-Carpentry"
+                                  class="p-1 text-base text-gray-100 rounded hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-opacity-75"
+                                  >Custom Carpentry</a
+                              >
+                          </li>
                           
                           <li>
                               <a
@@ -1360,63 +1473,35 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                   <div class="mt-12 md:mt-0">
                       <h3 class="text-sm font-semibold tracking-wider text-gray-100 uppercase">Hours</h3>
                       <ul role="list" class="mt-4 -mx-1 space-y-4">
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Sun: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Mon: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Tues: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Wed: 08:00am - 06:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Thu: 08:00am - 06:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Fri: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
-                          <li>
-                              <a
-                                  href="#"
-                                  class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75"
-                                  >Sat: 8:00am - 6:00pm</a
-                              >
-                          </li>
-                          
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Sun:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Mon:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Tues:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Wed:  08:00am - 06:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Thu:  08:00am - 06:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Fri:  8:00am - 6:00pm 
+                            </li>
+                        
+                            <li class="p-1 text-base text-gray-100 rounded  hover:text-gray-300 focus:ring-2 focus:outline-none ring-white ring-offset-2 ring-opacity-75">
+                                Sat:  8:00am - 6:00pm 
+                            </li>
+                        
                       </ul>
                   </div>
               </div>
@@ -1458,6 +1543,7 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
             :aria-labelledby="$id('modal-title')"
             class="fixed inset-0 z-40 md:pt-8 md:pb-20"
             x-trap.noscroll.inert="contactModalOpen"
+            id="send-text-modal"
     >
         <!-- Overlay -->
         <div
@@ -1481,11 +1567,11 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 @click="contactModalOpen = false"
-                class="relative flex items-center justify-center w-full h-full sm:h-max"
+                class="relative flex items-center justify-center w-full h-full"
         >
             <div
                     @click.stop
-                    class="flex flex-col w-full h-full overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:px-0 sm:my-0 sm:align-middle sm:max-w-3xl"
+                    class="flex flex-col w-full 2xl:h-max 2xl:mt-8 h-full overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:px-0 sm:my-0 sm:align-middle sm:max-w-3xl"
             >
                 <!-- Header -->
                 <div class="relative px-6 bg-white">
@@ -1506,7 +1592,7 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
 
                 <!-- Form -->
 
-                <form class="overflow-y-scroll pb-20 sm:w-full">
+                <form class="overflow-y-auto pb-20 sm:w-full" onsubmit="send_sms('843-Woodworking-LLC')">
                     <div class="flex-grow h-full overflow-x-hidden overflow-y-auto">
                         <div class="h-full px-6 pb-1 mt-6 space-y-6 sm:grid sm:grid-cols-2 sm:min-w-max sm:space-x-3">
                             <!-- Full Name -->
@@ -1528,6 +1614,7 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                             <div>
                                 <label for="contact-phone-number" class="sr-only">Phone Number</label>
                                 <input
+                                        required
                                         type="tel"
                                         name="phone-number"
                                         id="contact-phone-number"
@@ -1587,35 +1674,79 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-180016"
-                                                    name="180016"
+                                                    id="contact-service-204109"
+                                                    name="204109"
+                                                    type="checkbox"
+                                                    class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
+                                                    value="Kitchen Remodel"
+                                            />
+                                            <label for="contact-label-service-204109" class="ml-3 text-sm font-medium text-gray-700">Kitchen Remodel</label>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input
+                                                    id="contact-service-204110"
+                                                    name="204110"
+                                                    type="checkbox"
+                                                    class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
+                                                    value="Bathroom Remodel"
+                                            />
+                                            <label for="contact-label-service-204110" class="ml-3 text-sm font-medium text-gray-700">Bathroom Remodel</label>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input
+                                                    id="contact-service-204111"
+                                                    name="204111"
+                                                    type="checkbox"
+                                                    class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
+                                                    value="Decks"
+                                            />
+                                            <label for="contact-label-service-204111" class="ml-3 text-sm font-medium text-gray-700">Decks</label>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input
+                                                    id="contact-service-204112"
+                                                    name="204112"
+                                                    type="checkbox"
+                                                    class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
+                                                    value="Custom Carpentry"
+                                            />
+                                            <label for="contact-label-service-204112" class="ml-3 text-sm font-medium text-gray-700">Custom Carpentry</label>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input
+                                                    id="contact-service-204113"
+                                                    name="204113"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="General Carpentry"
                                             />
-                                            <label for="contact-label-service-180016" class="ml-3 text-sm font-medium text-gray-700">General Carpentry</label>
+                                            <label for="contact-label-service-204113" class="ml-3 text-sm font-medium text-gray-700">General Carpentry</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-180017"
-                                                    name="180017"
+                                                    id="contact-service-204114"
+                                                    name="204114"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Home Wood Repairs"
                                             />
-                                            <label for="contact-label-service-180017" class="ml-3 text-sm font-medium text-gray-700">Home Wood Repairs</label>
+                                            <label for="contact-label-service-204114" class="ml-3 text-sm font-medium text-gray-700">Home Wood Repairs</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-180018"
-                                                    name="180018"
+                                                    id="contact-service-204115"
+                                                    name="204115"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Exterior Additions"
                                             />
-                                            <label for="contact-label-service-180018" class="ml-3 text-sm font-medium text-gray-700">Exterior Additions</label>
+                                            <label for="contact-label-service-204115" class="ml-3 text-sm font-medium text-gray-700">Exterior Additions</label>
                                         </div>
                                         
                                     </div>
@@ -1628,7 +1759,6 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                                 <div class='sm:flex-grow'>
                                     <label for="contact-concern" class="sr-only">How can we help you?</label>
                                     <textarea
-                                            required
                                             id="contact-concern"
                                             name="concern"
                                             rows="4"
@@ -1647,35 +1777,79 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-180016"
-                                                    name="180016"
+                                                    id="contact-service-204109"
+                                                    name="204109"
+                                                    type="checkbox"
+                                                    class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
+                                                    value="Kitchen Remodel"
+                                            />
+                                            <label for="contact-label-service-204109" class="ml-3 text-sm font-medium text-gray-700">Kitchen Remodel</label>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input
+                                                    id="contact-service-204110"
+                                                    name="204110"
+                                                    type="checkbox"
+                                                    class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
+                                                    value="Bathroom Remodel"
+                                            />
+                                            <label for="contact-label-service-204110" class="ml-3 text-sm font-medium text-gray-700">Bathroom Remodel</label>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input
+                                                    id="contact-service-204111"
+                                                    name="204111"
+                                                    type="checkbox"
+                                                    class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
+                                                    value="Decks"
+                                            />
+                                            <label for="contact-label-service-204111" class="ml-3 text-sm font-medium text-gray-700">Decks</label>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input
+                                                    id="contact-service-204112"
+                                                    name="204112"
+                                                    type="checkbox"
+                                                    class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
+                                                    value="Custom Carpentry"
+                                            />
+                                            <label for="contact-label-service-204112" class="ml-3 text-sm font-medium text-gray-700">Custom Carpentry</label>
+                                        </div>
+                                        
+                                        <div class="flex items-center">
+                                            <input
+                                                    id="contact-service-204113"
+                                                    name="204113"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="General Carpentry"
                                             />
-                                            <label for="contact-label-service-180016" class="ml-3 text-sm font-medium text-gray-700">General Carpentry</label>
+                                            <label for="contact-label-service-204113" class="ml-3 text-sm font-medium text-gray-700">General Carpentry</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-180017"
-                                                    name="180017"
+                                                    id="contact-service-204114"
+                                                    name="204114"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Home Wood Repairs"
                                             />
-                                            <label for="contact-label-service-180017" class="ml-3 text-sm font-medium text-gray-700">Home Wood Repairs</label>
+                                            <label for="contact-label-service-204114" class="ml-3 text-sm font-medium text-gray-700">Home Wood Repairs</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-180018"
-                                                    name="180018"
+                                                    id="contact-service-204115"
+                                                    name="204115"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Exterior Additions"
                                             />
-                                            <label for="contact-label-service-180018" class="ml-3 text-sm font-medium text-gray-700">Exterior Additions</label>
+                                            <label for="contact-label-service-204115" class="ml-3 text-sm font-medium text-gray-700">Exterior Additions</label>
                                         </div>
                                         
                                     </div>
@@ -1687,47 +1861,88 @@ He made new outdoor railings, hog slats and a service area. Interior projects cl
                             </div>
                         </div>
                     </div>
-
+                    <div class="flex items-center justify-center w-full">
+                        <button     class="
+                                    py-2.5
+                                    w-4/5
+                                    fixed
+                                    bottom
+                                    text-sm
+                                    font-medium
+                                    transition
+                                    border-2 border-transparent
+                                    rounded-md
+                                    bg-primary
+                                    text-primary-foreground
+                                    focus:outline-none
+                                    hover:bg-primary-darker
+                                    bg-primar
+                                    focus-visible:ring-2
+                                    ring-primary ring-opacity-75 ring-offset-2"
+                                    style="
+                                    position:absolute;
+                                    left: 50%;
+                                    bottom: 0;
+                                    transform: translate(-50%, -50%);
+                                    margin-top: 0;
+                                    margin-bottom: 0">Send
+                        </button>
+                    </div>
                 </form>
-                <div class="flex
-                                items-center
-                                justify-center
-                                w-full
-                            "
-                     onclick="send_sms('843-Woodworking-LLC')"
-                >
-                    <button class="
-                                py-2.5
-                                w-4/5
-                                fixed
-                                bottom
-                                text-sm
-                                font-medium
-                                transition
-                                border-2 border-transparent
-                                rounded-md
-                                bg-primary
-                                text-primary-foreground
-                                focus:outline-none
-                                hover:bg-primary-darker
-                                bg-primar
-                                focus-visible:ring-2
-                                ring-primary ring-opacity-75 ring-offset-2" 
-                                style="
-                                position:absolute;
-                                left: 50%;
-                                bottom: 0;
-                                transform: translate(-50%, -50%);
-                                margin-top: 0;
-                                margin-bottom: 0"> Send
-                    </button>
-                </div>
 
 
             </div>
         </div>
     </div>
 </template>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = Array.from(
+            document.querySelectorAll('input[name=email], input[name=phone-number]')
+        )
+
+        const inputListener = e => {
+            inputs
+                .filter(i => i !== e.target)
+                .forEach(i => (i.required = !e.target.value.length))
+        }
+
+        inputs.forEach(i => i.addEventListener('input', inputListener))
+    })
+</script>
+<div
+	class="fixed top-36 inset-x-0 z-50 mx-auto p-4 border w-96 shadow-lg rounded-md bg-white backdrop-blur-sm"
+    id="text-thank-you"
+    style="display: none"
+>
+	<div class="mt-3 text-center">
+		<div
+			class="mx-auto mb-3 flex items-center justify-center h-12 w-12 rounded-full bg-green-100"
+		>
+			<svg
+				class="h-6 w-6 text-green-600"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 13l4 4L19 7"
+				></path>
+			</svg>
+		</div>
+		<h3 class="text-lg leading-6 font-medium text-gray-900">Thank you!</h3>
+		<div class="mt-1 px-7 py-3">
+			<p class="text-sm text-gray-500">
+				Your message was sent successfully. We’ll send you a text or give you a call soon.
+			</p>
+		</div>
+	</div>
+</div>
 <!-- Modal -->
 <template x-teleport="body">
     <div x-show="reviewModalOpen" @keydown.escape.prevent.stop="reviewModalOpen = false" role="dialog" aria-modal="true" x-id="['modal-title']" :aria-labelledby="$id('modal-title')" class="fixed inset-0 z-40 pt-8 pb-20" x-trap.noscroll.inert="reviewModalOpen">
